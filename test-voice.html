@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ElevenLabs Voice Test</title>
+</head>
+<body>
+    <h1>ElevenLabs Voice Test</h1>
+    <button onclick="testVoice()">Test Voice</button>
+    <div id="status"></div>
+    
+    <script>
+        async function testVoice() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch('/api/elevenlabs/text-to-speech', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Cache-Control': 'no-cache',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        text: 'Hello, this is a test of the ElevenLabs voice integration.',
+                        voice_id: 'pNInz6obpgDQGcFmaJgB', // Adam voice
+                        model_id: 'eleven_monolingual_v1',
+                    }),
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    statusDiv.innerHTML = `Error: ${error.error}`;
+                    return;
+                }
+
+                const audioBuffer = await response.arrayBuffer();
+                const blob = new Blob([audioBuffer], { type: 'audio/mpeg' });
+                const audioUrl = URL.createObjectURL(blob);
+                const audio = new Audio(audioUrl);
+                
+                audio.onplay = () => statusDiv.innerHTML = 'Playing audio...';
+                audio.onended = () => {
+                    statusDiv.innerHTML = 'Audio finished playing';
+                    URL.revokeObjectURL(audioUrl);
+                };
+                audio.onerror = () => statusDiv.innerHTML = 'Error playing audio';
+                
+                await audio.play();
+                
+            } catch (error) {
+                statusDiv.innerHTML = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
