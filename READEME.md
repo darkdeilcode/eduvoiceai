@@ -1,38 +1,23 @@
-# EduVoice AI - AI-Powered Educational Platform
+# EduVoice AI
 
 🚀 **An advanced educational platform powered by AI that provides comprehensive learning experiences through lectures, mock interviews, quizzes, and language assessments.**
 
+## 📋 Table of Contents
+- [Features](#-features)
+- [Screenshots](#️-screenshots)
+- [Tech Stack](#️-tech-stack)
+- [Getting Started](#-getting-started)
+- [Configuration](#-configuration)
+- [Token System](#-token-system)
+- [Project Structure](#️-project-structure)
+- [API Integration](#-api-integration)
+- [Deployment](#-deployment)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Support](#-support)
+- [Acknowledgments](#-acknowledgments)
+
 ## 🌟 Features
-## 🖥️ Screenshots
-
-<div align="center">
-
-### Dashboard Overview
-![Dashboard](public/screenshots/1.png)
-
-### AI Lecture Generation
-![Lecture Generation](public/screenshots/2.png)
-
-### Voice Interview Practice
-![Interview Practice](public/screenshots/3.png)
-
-### Smart Q&A Sessions
-![Q&A Sessions](public/screenshots/4.png)
-
-### Interview History
-![Interview History](public/screenshots/5.png)
-
-### Performance Reports
-![Performance Reports](public/screenshots/6.png)
-
-### Lecture Details
-![Lecture Details](public/screenshots/7.png)
-
-### Subscription Management
-![Subscription](public/screenshots/9.png)
-
-### User Profile
-![Profile](public/screenshots/10.png)
 
 ### 🎓 AI Lecture Generation
 - Generate comprehensive lectures on any topic
@@ -64,6 +49,39 @@
 - Tavus AI video integration for conversational assessments
 - CEFR-based scoring and detailed feedback
 - **Token Cost:** 10,000 tokens per assessment
+
+## 🖥️ Screenshots
+
+<div align="center">
+
+### Dashboard Overview
+![Dashboard](public/screenshots/1.png)
+
+### AI Lecture Generation
+![Lecture Generation](public/screenshots/2.png)
+
+### Voice Interview Practice
+![Interview Practice](public/screenshots/3.png)
+
+### Smart Q&A Sessions
+![Q&A Sessions](public/screenshots/4.png)
+
+### Interview History
+![Interview History](public/screenshots/5.png)
+
+### Performance Reports
+![Performance Reports](public/screenshots/6.png)
+
+### Lecture Details
+![Lecture Details](public/screenshots/7.png)
+
+### Subscription Management
+![Subscription](public/screenshots/9.png)
+
+### User Profile
+![Profile](public/screenshots/10.png)
+
+</div>
 
 ## 🛠️ Tech Stack
 

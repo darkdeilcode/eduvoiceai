@@ -34,7 +34,7 @@ export function WatermarkBadge({ className }: WatermarkBadgeProps) {
             fill="currentColor"
           />
         </svg>
-        Made with Bolt.new
+        Built with Bolt.new
       </span>
     </div>
   );
