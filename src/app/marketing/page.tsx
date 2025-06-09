@@ -196,7 +196,7 @@ export default function LandingPage() {
                   </Link>
                 </Button>
                  <Button size="lg" variant="outline" className="border-slate-700 bg-slate-800/50 hover:bg-slate-700 text-white px-8 py-4 text-lg backdrop-blur-sm">
-    <Link href="/docs" className="flex items-center">
+    <Link href="/documentation" className="flex items-center">
       <FileText className="mr-2 h-5 w-5" />
       Documentation
     </Link>

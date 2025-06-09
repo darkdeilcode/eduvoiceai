@@ -96,17 +96,20 @@ export async function POST(request: Request) {
 
       // Log successful deduction
       try {
+        // Using userId field for database compatibility
         await databases.createDocument(
           APPWRITE_DATABASE_ID,
           TRANSACTIONS_COLLECTION_ID,
           AppwriteID.unique(),
           {
-            user_id: userId,
+            userId: userId,
             type: transactionType,
+            token_amount: amountToDeduct,
             token_amount_changed: -amountToDeduct, 
             new_balance: newTokenBalance,
             transaction_description: transactionDescription,
             timestamp: new Date().toISOString(),
+            created_at: new Date().toISOString(),
           }
         );
         console.log(`Transaction logged for user ${userId}: ${amountToDeduct} tokens deducted for ${description}. New balance: ${newTokenBalance}`);

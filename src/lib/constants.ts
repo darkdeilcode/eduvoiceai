@@ -5,7 +5,6 @@ import {
   Mic, 
   HelpCircle, 
   Languages, 
-  Smile, 
   Settings, 
   CreditCard, 
   Key, 
@@ -30,7 +29,6 @@ export const APP_NAV_ITEMS: NavItem[] = [
   { label: 'Mock Interview', href: '/interviews', icon: Mic, matchPaths: ['/interviews', '/interviews/history', '/interviews/report'] },
   { label: 'Q&A Prep', href: '/qa-prep', icon: HelpCircle, matchPaths: ['/qa-prep', '/qa-prep/history', '/qa-prep/exam'] },
   { label: 'Learn Language', href: '/language', icon: Languages, matchPaths: ['/language'] },
-  { label: 'Meditation', href: '/meditation', icon: Smile, matchPaths: ['/meditation'] },
    {
     label: "Documentation", // Add this new item
     href: "/documentation",

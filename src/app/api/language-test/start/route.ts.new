@@ -1,0 +1,181 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import { 
+  databases,
+  clientInitialized, 
+  initializationError,
+  APPWRITE_DATABASE_ID, 
+  USERS_COLLECTION_ID
+} from '@/lib/appwrite.node';
+import { generateLanguageTest } from '@/ai/flows/language-test-generation-flow';
+import type { LanguageTestConfig, LanguageTestSession } from '@/types/languageTest';
+import { LANGUAGE_TEST_TOKEN_COST } from '@/types/languageTest';
+
+export async function POST(request: NextRequest) {
+  try {
+    // Check if Appwrite client is initialized
+    if (!clientInitialized) {
+      console.error("API /language-test/start: Appwrite client not initialized:", initializationError);
+      return NextResponse.json(
+        { error: 'Server configuration error', details: initializationError },
+        { status: 500 }
+      );
+    }
+
+    // Get session cookie
+    const cookieStore = cookies();
+    const sessionCookie = cookieStore.get('appwrite-session');
+    
+    if (!sessionCookie) {
+      console.error("API /language-test/start: No session cookie found");
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // Parse request body
+    const body = await request.json();
+    const { config, tavusConfig, userId } = body;
+
+    if (!userId) {
+      return NextResponse.json(
+        { error: 'User ID is required' },
+        { status: 400 }
+      );
+    }
+
+    if (!config || !config.language || !config.languageCode) {
+      return NextResponse.json(
+        { error: 'Invalid test configuration' },
+        { status: 400 }
+      );
+    }
+
+    // Check user token balance
+    const tokenResponse = await fetch(`${request.nextUrl.origin}/api/user/deduct-tokens`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Cookie': `appwrite-session=${sessionCookie.value}`
+      },
+      body: JSON.stringify({ 
+        userId: userId, 
+        amountToDeduct: LANGUAGE_TEST_TOKEN_COST,
+        description: `Language Test: ${config.language} (${config.difficulty})`
+      }),
+    });
+
+    const tokenResult = await tokenResponse.json();
+
+    if (!tokenResponse.ok) {
+      if (tokenResponse.status === 402 && tokenResult.canSubscribe) {
+        return NextResponse.json({
+          error: 'Insufficient tokens',
+          message: tokenResult.message || `You need ${LANGUAGE_TEST_TOKEN_COST} tokens for a language test.`,
+          currentTokenBalance: tokenResult.currentTokenBalance || 0,
+          canSubscribe: true
+        }, { status: 402 });
+      }
+      
+      return NextResponse.json({
+        error: 'Token deduction failed',
+        message: tokenResult.message || 'Unable to deduct tokens'
+      }, { status: 400 });
+    }
+
+    console.log(`✅ Tokens deducted successfully for language test: ${LANGUAGE_TEST_TOKEN_COST}`);
+
+    try {
+      // Generate test questions using AI flow
+      const testConfig: LanguageTestConfig = {
+        language: config.language,
+        languageCode: config.languageCode,
+        difficulty: config.difficulty,
+        testType: config.testType,
+        duration: config.duration
+      };
+
+      console.log('🎯 Generating language test questions with config:', testConfig);
+
+      // Convert LanguageTestConfig to LanguageTestGenerationInput
+      const generationInput = {
+        language: testConfig.language,
+        languageCode: testConfig.languageCode,
+        difficulty: testConfig.difficulty,
+        testType: testConfig.testType,
+        questionCount: 10, // Default question count
+        // Optional fields can be added if available in config
+      };
+
+      const generationResult = await generateLanguageTest(generationInput);
+
+      if (!generationResult || !generationResult.questions || generationResult.questions.length === 0) {
+        throw new Error('Failed to generate test questions');
+      }
+
+      // Create test session
+      const session: LanguageTestSession = {
+        id: `test_${Date.now()}_${userId}`,
+        userId: userId,
+        config: testConfig,
+        questions: generationResult.questions,
+        responses: [],
+        currentQuestionIndex: 0,
+        startTime: Date.now(),
+        status: 'in_progress',
+        tavusConfig
+      };
+
+      console.log(`✅ Language test session created with ${generationResult.questions.length} questions`);
+
+      return NextResponse.json({
+        success: true,
+        session,
+        questionsGenerated: generationResult.questions.length,
+        tokenBalance: tokenResult.newTokenBalance
+      });
+
+    } catch (aiError: any) {
+      console.error('❌ Error generating test questions:', aiError);
+      
+      // Refund tokens on AI generation failure
+      try {
+        await fetch(`${request.nextUrl.origin}/api/user/refund-tokens`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Cookie': `appwrite-session=${sessionCookie.value}`
+          },
+          body: JSON.stringify({ 
+            userId: userId, 
+            amountToRefund: LANGUAGE_TEST_TOKEN_COST,
+            description: `Language Test Refund: AI generation failed`
+          }),
+        });
+        console.log('✅ Tokens refunded due to AI generation failure');
+      } catch (refundError) {
+        console.error('❌ Failed to refund tokens:', refundError);
+      }
+
+      return NextResponse.json({
+        error: 'Failed to generate test questions',
+        message: aiError.message || 'AI service unavailable'
+      }, { status: 500 });
+    }
+
+  } catch (error: any) {
+    console.error('❌ Language test start error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error', details: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET() {
+  return NextResponse.json(
+    { error: 'Method not allowed' },
+    { status: 405 }
+  );
+}

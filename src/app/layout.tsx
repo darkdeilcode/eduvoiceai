@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
+import { WatermarkBadge } from "@/components/ui/watermark-badge";
 
 export const metadata: Metadata = {
   title: 'EduVoice AI',
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body className="font-body antialiased min-h-screen">
         {children}
         <Toaster />
+        <WatermarkBadge />
       </body>
     </html>
   );

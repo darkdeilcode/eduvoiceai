@@ -1,9 +1,12 @@
 
-import {genkit} from 'genkit';
+import {genkit as genkitOriginal} from 'genkit';
 import {googleAI} from '@genkit-ai/googleai';
 // import genkitNextPlugin from '@genkit-ai/next'; // Temporarily remove to troubleshoot
 
-export const ai = genkit({
+// Re-export the original genkit function
+export const genkit = genkitOriginal;
+
+export const ai = genkitOriginal({
   plugins: [
     googleAI({apiKey: process.env.GEMINI_API_KEY}), // Explicitly pass API key
     // genkitNextPlugin() // Temporarily remove

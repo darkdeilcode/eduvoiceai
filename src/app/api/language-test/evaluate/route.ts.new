@@ -1,0 +1,145 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import { 
+  databases,
+  clientInitialized,
+  initializationError,
+  ID as AppwriteID,
+  APPWRITE_DATABASE_ID, 
+  USERS_COLLECTION_ID 
+} from '@/lib/appwrite.node';
+import { languageTestEvaluationFlow } from '@/ai/flows/language-test-evaluation-flow';
+import type { LanguageTestSession, LanguageTestResponse, LanguageTestReport } from '@/types/languageTest';
+
+export async function POST(request: NextRequest) {
+  try {
+    // Check if Appwrite client is initialized
+    if (!clientInitialized) {
+      console.error("API /language-test/evaluate: Appwrite client not initialized:", initializationError);
+      return NextResponse.json(
+        { error: 'Server configuration error', details: initializationError },
+        { status: 500 }
+      );
+    }
+    
+    // Get session cookie
+    const cookieStore = cookies();
+    const sessionCookie = cookieStore.get('appwrite-session');
+    
+    if (!sessionCookie) {
+      console.error("API /language-test/evaluate: No session cookie found");
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // Parse request body
+    const body = await request.json();
+    const { session, responses, userId } = body;
+
+    if (!session || !responses || !Array.isArray(responses)) {
+      return NextResponse.json(
+        { error: 'Invalid session or responses data' },
+        { status: 400 }
+      );
+    }
+
+    // Verify user owns this session
+    if (userId && session.userId !== userId) {
+      return NextResponse.json(
+        { error: 'Unauthorized: User does not own this test session' },
+        { status: 403 }
+      );
+    }
+
+    try {
+      console.log('🔍 Evaluating language test responses...');
+
+      // Prepare evaluation data
+      const evaluationData = {
+        session: session as LanguageTestSession,
+        responses: responses as LanguageTestResponse[]
+      };
+
+      // Run evaluation flow
+      const evaluationResult = await languageTestEvaluationFlow(evaluationData);
+
+      if (!evaluationResult) {
+        throw new Error('Failed to evaluate test responses');
+      }
+
+      // Create a proper report
+      const report: LanguageTestReport = {
+        id: `report_${Date.now()}_${session.userId}`,
+        testSessionId: session.id,
+        userId: session.userId,
+        language: session.config.language,
+        languageCode: session.config.languageCode,
+        difficulty: session.config.difficulty,
+        testType: session.config.testType,
+        createdAt: Date.now(),
+        duration: Date.now() - session.startTime,
+        overallScore: evaluationResult.overallScore,
+        cerfLevel: evaluationResult.cerfLevel,
+        skillScores: evaluationResult.skillScores,
+        questionScores: evaluationResult.questionScores,
+        feedback: evaluationResult.feedback,
+        recommendations: evaluationResult.recommendations,
+        audioUrls: evaluationResult.audioUrls || {}
+      };
+
+      // Save report to database
+      if (APPWRITE_DATABASE_ID && process.env.NEXT_PUBLIC_APPWRITE_LANGUAGE_TESTS_COLLECTION_ID) {
+        try {
+          await databases.createDocument(
+            APPWRITE_DATABASE_ID,
+            process.env.NEXT_PUBLIC_APPWRITE_LANGUAGE_TESTS_COLLECTION_ID,
+            AppwriteID.unique(),
+            {
+              user_id: session.userId,
+              report: JSON.stringify(report),
+              language: session.config.language,
+              language_code: session.config.languageCode,
+              difficulty: session.config.difficulty,
+              test_type: session.config.testType,
+              overall_score: evaluationResult.overallScore,
+              cerf_level: evaluationResult.cerfLevel,
+              created_at: Date.now()
+            }
+          );
+          console.log('✅ Language test report saved to database');
+        } catch (dbError) {
+          console.error('❌ Failed to save test report to database:', dbError);
+          // Continue even if database save fails - we'll still return the report to the user
+        }
+      }
+
+      return NextResponse.json({
+        success: true,
+        report
+      });
+
+    } catch (evalError: any) {
+      console.error('❌ Error evaluating test responses:', evalError);
+      return NextResponse.json({
+        error: 'Failed to evaluate test',
+        message: evalError.message || 'AI service unavailable'
+      }, { status: 500 });
+    }
+
+  } catch (error: any) {
+    console.error('❌ Language test evaluation error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error', details: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET() {
+  return NextResponse.json(
+    { error: 'Method not allowed' },
+    { status: 405 }
+  );
+}

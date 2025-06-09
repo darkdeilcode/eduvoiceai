@@ -28,6 +28,8 @@ import {
   Brain,
   Timer,
   CreditCard,
+  Key,
+  Settings,
   Shield,
   Users,
   TrendingUp,
@@ -50,17 +52,24 @@ export default function DocumentationPage() {
     },
     {
       icon: MessageSquareText,
-      title: "Mock Interview Practice",
-      description: "Practice job interviews with AI that provides real-time feedback",
+      title: "AI Mock Interview",
+      description: "Practice job interviews with AI voice-based feedback and personalized questions",
       cost: "1000 tokens",
       color: "from-blue-500 to-cyan-600"
     },
     {
       icon: ClipboardList,
-      title: "QA Quiz Preparation",
+      title: "AI Quiz Generator",
       description: "Generate custom quizzes from PDF materials for exam preparation",
-      cost: "50 tokens per question",
+      cost: "100 tokens per question",
       color: "from-indigo-500 to-purple-600"
+    },
+    {
+      icon: Globe,
+      title: "Language Assessment Hub",
+      description: "Comprehensive language testing with video assessments in 13+ languages",
+      cost: "10000 tokens",
+      color: "from-green-500 to-emerald-600"
     }
   ];
 
@@ -227,7 +236,7 @@ export default function DocumentationPage() {
                       asChild 
                       className="w-full bg-gradient-to-r from-slate-900 to-slate-700 hover:from-slate-800 hover:to-slate-600 rounded-xl"
                     >
-                      <Link href={`/${index === 0 ? 'lectures' : index === 1 ? 'interviews' : 'qa-prep'}`}>
+                      <Link href={`/${index === 0 ? 'lectures' : index === 1 ? 'interviews' : index === 2 ? 'qa-prep' : 'language'}`}>
                         Try Now <ArrowRight className="h-4 w-4 ml-2" />
                       </Link>
                     </Button>
@@ -305,15 +314,15 @@ export default function DocumentationPage() {
               </CardContent>
             </Card>
 
-            {/* Mock Interview Practice */}
+            {/* AI Mock Interview */}
             <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-0 shadow-xl rounded-2xl">
               <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/30 dark:to-cyan-950/30">
                 <CardTitle className="flex items-center gap-3 text-2xl">
                   <MessageSquareText className="h-8 w-8 text-blue-600" />
-                  Mock Interview Practice
+                  AI Mock Interview
                 </CardTitle>
                 <CardDescription className="text-lg">
-                  Practice job interviews with AI that adapts to your responses
+                  Practice job interviews with AI in voice-only mode with personalized questions based on your CV
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-6 space-y-6">
@@ -323,36 +332,44 @@ export default function DocumentationPage() {
                     <ul className="space-y-3">
                       <li className="flex items-start gap-3">
                         <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>Upload your resume and job description</span>
+                        <span>Describe the job position you're applying for</span>
                       </li>
                       <li className="flex items-start gap-3">
                         <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>AI asks relevant questions based on your profile</span>
+                        <span>Submit your CV/resume for personalized questions</span>
                       </li>
                       <li className="flex items-start gap-3">
                         <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>Real-time feedback on your responses</span>
+                        <span>AI generates relevant interview questions</span>
                       </li>
                       <li className="flex items-start gap-3">
                         <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>Detailed performance report with improvement tips</span>
+                        <span>Conduct interview in voice-only mode</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span>Receive detailed feedback and performance analysis</span>
                       </li>
                     </ul>
                   </div>
                   <div className="space-y-4">
-                    <h3 className="text-xl font-semibold">Smart Features:</h3>
+                    <h3 className="text-xl font-semibold">Key Features:</h3>
                     <div className="grid gap-3">
                       <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg">
-                        <Timer className="h-5 w-5 text-blue-500" />
-                        <span>10-minute timed sessions</span>
+                        <MessageSquareText className="h-5 w-5 text-blue-500" />
+                        <span>Voice-only interview mode</span>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg">
+                        <FileText className="h-5 w-5 text-green-500" />
+                        <span>CV-based question generation</span>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg">
+                        <Timer className="h-5 w-5 text-orange-500" />
+                        <span>Customizable duration</span>
                       </div>
                       <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg">
                         <Award className="h-5 w-5 text-yellow-500" />
-                        <span>Performance scoring (0-100)</span>
-                      </div>
-                      <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg">
-                        <Target className="h-5 w-5 text-red-500" />
-                        <span>Question-specific feedback</span>
+                        <span>Comprehensive feedback method</span>
                       </div>
                     </div>
                   </div>
@@ -363,27 +380,27 @@ export default function DocumentationPage() {
                     <span className="font-semibold text-lg">Token Cost: 1000 tokens per interview</span>
                   </div>
                   <p className="text-slate-600 dark:text-slate-400">
-                    Perfect your interview skills with personalized AI feedback and detailed performance analytics.
+                    Perfect your interview skills with voice-based AI interviews that provide personalized questions based on your CV and comprehensive feedback to help you improve.
                   </p>
                 </div>
               </CardContent>
             </Card>
 
-            {/* QA Quiz Preparation */}
+            {/* AI Quiz Generator */}
             <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-0 shadow-xl rounded-2xl">
               <CardHeader className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/30 dark:to-purple-950/30">
                 <CardTitle className="flex items-center gap-3 text-2xl">
                   <ClipboardList className="h-8 w-8 text-indigo-600" />
-                  QA Quiz Preparation
+                  AI Quiz Generator
                 </CardTitle>
                 <CardDescription className="text-lg">
-                  Generate custom quizzes from your study materials for effective exam preparation
+                  Generate custom quizzes from your study materials with 5 different quiz methods for effective exam preparation
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-6 space-y-6">
                 <div className="grid gap-6 lg:grid-cols-2">
                   <div className="space-y-4">
-                    <h3 className="text-xl font-semibold">Quiz Generation:</h3>
+                    <h3 className="text-xl font-semibold">Quiz Generation Process:</h3>
                     <ul className="space-y-3">
                       <li className="flex items-start gap-3">
                         <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
@@ -391,32 +408,44 @@ export default function DocumentationPage() {
                       </li>
                       <li className="flex items-start gap-3">
                         <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>Choose number of questions (10-50)</span>
+                        <span>Choose from 5 different quiz methods</span>
                       </li>
                       <li className="flex items-start gap-3">
                         <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>Set quiz duration (10-50 minutes)</span>
+                        <span>Set number of questions and duration</span>
                       </li>
                       <li className="flex items-start gap-3">
                         <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>AI generates relevant questions from content</span>
+                        <span>AI generates questions from your content</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span>Take quiz and receive detailed feedback</span>
                       </li>
                     </ul>
                   </div>
                   <div className="space-y-4">
-                    <h3 className="text-xl font-semibold">Quiz Features:</h3>
+                    <h3 className="text-xl font-semibold">5 Quiz Methods Available:</h3>
                     <div className="grid gap-3">
                       <div className="flex items-center gap-3 p-3 bg-indigo-50 dark:bg-indigo-950/30 rounded-lg">
-                        <Clock className="h-5 w-5 text-indigo-500" />
-                        <span>Timed exam simulation</span>
+                        <CheckCircle className="h-5 w-5 text-indigo-500" />
+                        <span>Multiple Choice Questions</span>
                       </div>
                       <div className="flex items-center gap-3 p-3 bg-indigo-50 dark:bg-indigo-950/30 rounded-lg">
-                        <Award className="h-5 w-5 text-yellow-500" />
-                        <span>Detailed scoring & feedback</span>
+                        <CheckCircle className="h-5 w-5 text-indigo-500" />
+                        <span>True/False Questions</span>
                       </div>
                       <div className="flex items-center gap-3 p-3 bg-indigo-50 dark:bg-indigo-950/30 rounded-lg">
-                        <FileText className="h-5 w-5 text-green-500" />
-                        <span>Question-by-question analysis</span>
+                        <CheckCircle className="h-5 w-5 text-indigo-500" />
+                        <span>Fill in the Blanks</span>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 bg-indigo-50 dark:bg-indigo-950/30 rounded-lg">
+                        <CheckCircle className="h-5 w-5 text-indigo-500" />
+                        <span>Short Answer Questions</span>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 bg-indigo-50 dark:bg-indigo-950/30 rounded-lg">
+                        <CheckCircle className="h-5 w-5 text-indigo-500" />
+                        <span>Essay Questions</span>
                       </div>
                     </div>
                   </div>
@@ -424,10 +453,122 @@ export default function DocumentationPage() {
                 <div className="bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-950/50 dark:to-purple-950/50 rounded-xl p-6">
                   <div className="flex items-center gap-3 mb-3">
                     <Zap className="h-6 w-6 text-indigo-600" />
-                    <span className="font-semibold text-lg">Token Cost: 50 tokens per question</span>
+                    <span className="font-semibold text-lg">Token Cost: 5 tokens per question</span>
                   </div>
                   <p className="text-slate-600 dark:text-slate-400">
-                    Transform your study materials into personalized quizzes for effective exam preparation.
+                    Transform your study materials into personalized quizzes with 5 different question types for comprehensive exam preparation.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Language Assessment Hub */}
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-0 shadow-xl rounded-2xl">
+              <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30">
+                <CardTitle className="flex items-center gap-3 text-2xl">
+                  <Globe className="h-8 w-8 text-green-600" />
+                  Language Assessment Hub
+                </CardTitle>
+                <CardDescription className="text-lg">
+                  Comprehensive language testing with video assessments supporting 13+ languages
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-6 space-y-6">
+                <div className="grid gap-6 lg:grid-cols-2">
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-semibold">Assessment Process:</h3>
+                    <ul className="space-y-3">
+                      <li className="flex items-start gap-3">
+                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span>Choose from 13+ supported languages</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span>Take comprehensive video-based language test</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span>AI evaluates speaking, pronunciation, and fluency</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span>Receive detailed CEFR-based assessment report</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span>Get personalized improvement recommendations</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-semibold">Supported Languages:</h3>
+                    <div className="grid gap-2 grid-cols-2">
+                      <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-950/30 rounded-lg text-sm">
+                        <Globe className="h-4 w-4 text-green-500" />
+                        <span>English</span>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-950/30 rounded-lg text-sm">
+                        <Globe className="h-4 w-4 text-green-500" />
+                        <span>Spanish</span>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-950/30 rounded-lg text-sm">
+                        <Globe className="h-4 w-4 text-green-500" />
+                        <span>French</span>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-950/30 rounded-lg text-sm">
+                        <Globe className="h-4 w-4 text-green-500" />
+                        <span>German</span>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-950/30 rounded-lg text-sm">
+                        <Globe className="h-4 w-4 text-green-500" />
+                        <span>Italian</span>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-950/30 rounded-lg text-sm">
+                        <Globe className="h-4 w-4 text-green-500" />
+                        <span>Portuguese</span>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-950/30 rounded-lg text-sm">
+                        <Globe className="h-4 w-4 text-green-500" />
+                        <span>Chinese</span>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-950/30 rounded-lg text-sm">
+                        <Globe className="h-4 w-4 text-green-500" />
+                        <span>Japanese</span>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-950/30 rounded-lg text-sm">
+                        <Globe className="h-4 w-4 text-green-500" />
+                        <span>Korean</span>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-950/30 rounded-lg text-sm">
+                        <Globe className="h-4 w-4 text-green-500" />
+                        <span>Arabic</span>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-950/30 rounded-lg text-sm">
+                        <Globe className="h-4 w-4 text-green-500" />
+                        <span>Russian</span>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-950/30 rounded-lg text-sm">
+                        <Globe className="h-4 w-4 text-green-500" />
+                        <span>Hindi</span>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-950/30 rounded-lg text-sm">
+                        <Globe className="h-4 w-4 text-green-500" />
+                        <span>Dutch</span>
+                      </div>
+                      <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-950/30 rounded-lg text-sm">
+                        <Globe className="h-4 w-4 text-green-500" />
+                        <span>+ More</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-950/50 dark:to-emerald-950/50 rounded-xl p-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Zap className="h-6 w-6 text-green-600" />
+                    <span className="font-semibold text-lg">Token Cost: 10,000 tokens per assessment</span>
+                  </div>
+                  <p className="text-slate-600 dark:text-slate-400">
+                    Get professional-grade language assessment with video-based testing, CEFR scoring, and detailed feedback to track your language proficiency across multiple languages.
                   </p>
                 </div>
               </CardContent>
@@ -462,7 +603,7 @@ export default function DocumentationPage() {
                     <div className="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg">
                       <div className="flex items-center gap-3">
                         <MessageSquareText className="h-5 w-5 text-blue-600" />
-                        <span>Mock Interview Session</span>
+                        <span>AI Mock Interview</span>
                       </div>
                       <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
                         1000 tokens
@@ -471,10 +612,19 @@ export default function DocumentationPage() {
                     <div className="flex items-center justify-between p-4 bg-indigo-50 dark:bg-indigo-950/30 rounded-lg">
                       <div className="flex items-center gap-3">
                         <ClipboardList className="h-5 w-5 text-indigo-600" />
-                        <span>QA Quiz (per question)</span>
+                        <span>AI Quiz Generator (per question)</span>
                       </div>
                       <Badge className="bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
-                        50 tokens
+                        100 tokens
+                      </Badge>
+                    </div>
+                    <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-950/30 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <Globe className="h-5 w-5 text-green-600" />
+                        <span>Language Assessment Hub</span>
+                      </div>
+                      <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                        10000 tokens
                       </Badge>
                     </div>
                   </div>
@@ -483,7 +633,7 @@ export default function DocumentationPage() {
                   <h3 className="text-xl font-semibold">Free Credits:</h3>
                   <div className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-950/50 dark:to-emerald-950/50 rounded-xl p-6">
                     <div className="text-center space-y-2">
-                      <div className="text-3xl font-bold text-green-600">5,000</div>
+                      <div className="text-3xl font-bold text-green-600">60,000</div>
                       <div className="text-lg font-semibold">Free Tokens</div>
                       <p className="text-sm text-slate-600 dark:text-slate-400">
                         Get started with generous free credits upon registration
@@ -499,6 +649,71 @@ export default function DocumentationPage() {
                     </Button>
                   </div>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Subscription & API Key Section */}
+          <Card className="rounded-2xl overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-orange-500 to-red-600 text-white p-6">
+              <CardTitle className="text-2xl lg:text-3xl font-bold flex items-center gap-3">
+                <CreditCard className="h-8 w-8" />
+                Subscription & API Integration
+              </CardTitle>
+              <CardDescription className="text-lg text-orange-100">
+                Flexible pricing plans and seamless API integration for developers
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-6 space-y-6">
+              <div className="grid gap-6 lg:grid-cols-2">
+                <div className="space-y-4">
+                  <h3 className="text-xl font-semibold flex items-center gap-2">
+                    <CreditCard className="h-5 w-5 text-orange-600" />
+                    Subscription Plans
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="p-4 border rounded-lg">
+                      <h4 className="font-semibold text-green-600">Free Plan</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">60,000 tokens upon registration</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Access to all features with token limits</p>
+                    </div>
+                    <div className="p-4 border rounded-lg">
+                      <h4 className="font-semibold text-blue-600">Premium Plans</h4>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Additional token packages available</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Priority support and advanced features</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-semibold flex items-center gap-2">
+                    <Key className="h-5 w-5 text-orange-600" />
+                    API Key Integration
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                      <h4 className="font-semibold mb-2">How to Use Your API Key:</h4>
+                      <ol className="text-sm space-y-1 text-slate-600 dark:text-slate-400">
+                        <li>1. Navigate to Settings → API Keys</li>
+                        <li>2. Generate or copy your personal API key</li>
+                        <li>3. Include the key in your application headers</li>
+                        <li>4. Make requests to our endpoints with authentication</li>
+                      </ol>
+                    </div>
+                    <div className="p-4 bg-orange-50 dark:bg-orange-950/30 rounded-lg">
+                      <p className="text-sm text-orange-800 dark:text-orange-200">
+                        <strong>Security Note:</strong> Keep your API key secure and never expose it in client-side code.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="text-center pt-4">
+                <Button asChild className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 rounded-xl">
+                  <Link href="/settings">
+                    <Settings className="h-4 w-4 mr-2" />
+                    Manage Subscription & API Keys
+                  </Link>
+                </Button>
               </div>
             </CardContent>
           </Card>
