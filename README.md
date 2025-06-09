@@ -33,7 +33,7 @@
 
 ### User Profile
 ![Profile](public/screenshots/10.png)
-
+</div>
 ### 🎓 AI Lecture Generation
 - Generate comprehensive lectures on any topic
 - AI-curated YouTube video integration
